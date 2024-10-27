@@ -1,0 +1,42 @@
+{
+    "name": "telecomunicate/content",
+    "description": "Es un sistema digital diseñado para administrar y supervisar todos los aspectos del proceso estudiantil de la ucla.",
+    "type": "project",
+    "require": {
+        "setasign/fpdf": "^1.8",
+        "php": "^7.4",
+        "twbs/bootstrap": "^5.3",
+        "components/jquery": "^3.7",
+        "components/font-awesome": "*"
+    },
+    "license": "001",
+    "autoload": {
+        "psr-4": {
+            "Telecomunicate\\Content\\": "content/"
+        }
+    },
+    "authors": [
+        {
+            "name": "UCLA Semestre 2024-1"
+        }
+    ],
+    "scripts": {
+        "pre-install-cmd": [
+            "mkdir public",
+            "mkdir public\\css",
+            "mkdir public\\js",
+            "mkdir public\\font-awesome"
+        ],
+        "post-install-cmd": [
+            "cp -R vendor/twbs/bootstrap/dist public/css",
+            "cp -R vendor/components/jquery/jquery.min.js public/js/",
+            "cp -R vendor/components/font-awesome/* public/font-awesome/"
+        ],
+        "post-update-cmd": [
+            "cp -R vendor/twbs/bootstrap/dist public/css",
+            "cp -R vendor/components/jquery/jquery.min.js public/js/",
+            "cp -R vendor/components/font-awesome/* public/font-awesome/"
+        ]
+    },
+    "minimum-stability": "beta"
+}

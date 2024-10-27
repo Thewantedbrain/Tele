@@ -1,0 +1,86 @@
+	//aqui empieza el login
+	public function getLoginSistema($usuario, $password){
+
+
+			if(preg_match_all($this->expCedula, $usuario) && (int)$usuario > 999999){
+				
+				$this->cedula = $usuario;
+
+			} else {
+			
+				if (preg_match_all($this->expEmail, $usuario)){
+
+					$this->email = $this->encriptar($usuario);
+				} else{
+					return 0;
+				}
+			}
+
+			if(preg_match_all($this->expPassword, $password)){
+
+				$this->password = $password;
+							
+			} else {
+			
+				return  0;
+			}
+
+			$validarUser = $this->conexSeg->prepare("SELECT `cedula`, `correo` FROM `tblusuarios` WHERE (`cedula` = ? OR `correo` = ?) AND  `estado` = 0");
+			$validarUser->bindValue(1, $this->cedula ?? null);
+			$validarUser->bindValue(2, $this->email ?? null);
+			$validarUser->execute();
+
+			$inactivo = $validarUser->fetchAll(\PDO::FETCH_ASSOC);
+
+			if (isset($inactivo[0])) {
+				return 2;
+			}
+
+			return $this->loginSistema();
+	}
+
+	private function loginSistema(){
+		try{
+			$new = $this->conexSeg->prepare("SELECT tblusuarios.* FROM `tblusuarios` INNER JOIN `tblroles` ON `rol_Id` = `idRol` WHERE tblusuarios.estado = 1 AND (`cedula` = ? OR `correo` = ?) AND tblroles.estado = 1");
+			$new->bindValue(1, $this->cedula ?? null);
+			$new->bindValue(2, $this->email ?? null);
+			$new->execute();
+			$data = $new->fetchAll();
+
+			if (isset($data[0])) {
+
+				if(password_verify($this->password, $data[0]["clave"])){
+
+				return array('status'=> 1, 'data' => $data);
+
+				}else{
+					return 0;
+					
+				}
+			} else {
+
+				return 0;
+				
+			}
+
+		} catch(\exception $error){
+			return $error;
+		}
+	} 
+
+
+-------------------------------------------------------------------- Controlador
+
+if(isset($_POST['usuario']) && isset($_POST['password'])){
+				$respuesta = $userModel->getLoginSistema($_POST['usuario'], $_POST['password']);				
+			
+				if ($respuesta == 0){
+					$error = "<p class='text-center text-danger'><b>Error en el usuario o Contraseña</b>.</p>";
+
+				}elseif ($respuesta == 2) {
+					$error = "<p class='text-center text-danger'><b>Su cuenta se encuentra inactiva. Registrese de nuevo para activarla</b>.</p>";
+				}elseif (isset($respuesta['status']) && $respuesta['status'] === 1){
+					
+					$userSession->setUserSession($respuesta['data']);
+				}
+			}

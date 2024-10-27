@@ -1,0 +1,31 @@
+Antes de trabajar en el archivo se debe realizar el siguiente proceso:
+
+1) Descargar e instalar el setup global de composer (Si ya lo tienes instalado omitir este paso). 
+
+Link: https://getcomposer.org/download/
+
+2) Abrir la terminal GIT BASH con la dirección de la carpeta telecomunicate (Otras terminales no permiten usar el comando cp)
+
+3) colocar en la terminal el siguiente comando:
+
+composer install / composer update (Cualquiera funciona SOLO USAR UNO) 
+
+4) Se instalará la carpeta vendor con todas las dependencias y una carpeta public con los archivos globales del sistema (JQuery, fontawesome, bootstrap)
+
+--------------------------------------------------------------
+
+Extensiones recomendadas para programar en php con VSCode
+
+- PHP Intellisense
+- PHP Intelephense
+- Indent rainbow
+- PHP profiler
+- GitLens — Git supercharged
+
+Links de videos para mejorar VSCode
+
+https://www.youtube.com/watch?v=29er5_0T3Zg&ab_channel=HolaMundo
+
+https://www.youtube.com/watch?v=u3A-tKLIH1I&ab_channel=HolaMundo
+
+https://www.youtube.com/watch?v=HiVnGgYudLY&t=357s&ab_channel=HolaMundo
